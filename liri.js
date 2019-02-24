@@ -36,7 +36,7 @@ function search(func,query) {
                         print+= "\nDate: " + moment(data[i].datetime).format("MM/DD/YYYY")+"\n";
                     }
                     //this is my function that prints to console and a file
-                    log(print+"\n");
+                    log(print);
                 }
             })
             break;
@@ -46,7 +46,7 @@ function search(func,query) {
             }
             spotify.search({type:"track",query:query},function(err,data) {
                 if (err) {
-                    return log("\n"+err+"\n\n");
+                    return log(err);
                 }
                 let song = data.tracks.items;
                 // console.log(song);
@@ -82,10 +82,10 @@ function search(func,query) {
                     `Plot: ${data.Plot}`,
                     `Actors: ${data.Actors}`
                 ].join("\n");
-                log("\n"+print+"\n\n");
+                log("\n"+print);
                 
             }).catch(error => {
-                log("\nSorry: movie not found\n\n");
+                log("Sorry: movie not found");
             });
             break;
         case "do-what-it-says":
@@ -104,7 +104,7 @@ function search(func,query) {
             });
             break;
         default:
-            log("\nError: Unknown command\n\n");
+            log("Error: Unknown command");
     }
 }
 
@@ -115,7 +115,7 @@ function ask() {
             type: "list",
             message: "What would you like to search for?",
             name : "command",
-            choices:["Song","Band","Movie","From Text File"]
+            choices:["Song","Band","Movie"]
         }, {
             message: "Enter your search: ",
             name: "query"
@@ -147,7 +147,7 @@ function ask() {
 
 function log(string) {
     console.log(string);
-    fs.appendFile("log.txt",string+"------------------\n",err => {
+    fs.appendFile("log.txt",string.trim()+"\n------------------\n",err => {
         if (err) {
             return console.log(err);
         }
